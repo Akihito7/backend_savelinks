@@ -1,6 +1,6 @@
 module.exports = {
-    jwt : {
-        secret : "xama44",
-        expiresIn : "1d"
+    jwt: {
+        secret: process.env.SECRETKEY,
+        expiresIn: process.env.EXPIRESIN
     }
 }
