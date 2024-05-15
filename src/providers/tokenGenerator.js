@@ -1,11 +1,11 @@
-const secretKey = "xama44";
-const expiresIn = "1d";
+const { jwt } = require("../configs/auth");
 
-const { sign } = require("jsonwebtoken")
+const { secret, expiresIn } = jwt;
+const { sign } = require("jsonwebtoken");
 
 function tokenGenerator(user_id){
 
-    const token = sign({}, secretKey, {
+    const token = sign({}, secret, {
         subject : String(user_id),
         expiresIn,
     })
