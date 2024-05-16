@@ -60,7 +60,7 @@ class LinkController {
         
         const linkDeleted = await knex("links").del().where({id, user_id});
         
-        if(!linkDeleted) response.status(404).json({ message: "Nenhuma coluna foi excluída. Id do link ou Id do user não encontrado ou não correspondente" });
+        if(!linkDeleted) return response.status(404).json({ message: "Nenhuma coluna foi excluída. Id do link ou Id do user não encontrado ou não correspondente" });
 
         response.status(200).json();
     }

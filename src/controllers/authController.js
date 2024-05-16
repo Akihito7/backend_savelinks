@@ -15,7 +15,7 @@ class AuthController {
 
         const emailExists = await knex("users").where({ email }).first();
 
-        if (emailExists) response.status(409).json({
+        if (emailExists) return response.status(409).json({
             message: "Email já em uso."
         });
 
@@ -31,7 +31,6 @@ class AuthController {
     }
 
     async signln(request, response) {
-
         const {
             email,
             password
@@ -39,13 +38,13 @@ class AuthController {
 
         const user = await knex("users").where({ email }).first();
 
-        if (!user) response.status(400).json({
+        if (!user) return response.status(400).json({
             message: "Email e /ou senha incorretos."
         });
 
         const passwordMatch = await compare(password, user.password);
 
-        if (!passwordMatch) response.status(400).json({
+        if (!passwordMatch) return response.status(400).json({
             message: "Email e /ou senhas incorretos."
         });
 
