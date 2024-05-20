@@ -39,12 +39,14 @@ class AuthController {
         const user = await knex("users").where({ email }).first();
 
         if (!user) throw new AppError(401, "Email e /ou senhas incorretos.")
-
+        
+        console.log(user)
         const passwordMatch = await compare(password, user.password);
 
         if (!passwordMatch) throw new AppError(401, "Email e /ou senhas incorretos.");
 
         const token = tokenGenerator(user.id);
+        console.log(token)
 
         response.status(200).json({
             user,
