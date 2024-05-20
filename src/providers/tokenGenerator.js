@@ -1,6 +1,6 @@
 const { jwt } = require("../configs/auth");
 
-const { secret, expiresIn } = jwt;
+const { secret } = jwt;
 const { sign } = require("jsonwebtoken");
 
 function tokenGenerator(user_id){
