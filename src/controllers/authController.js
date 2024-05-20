@@ -49,8 +49,7 @@ class AuthController {
         console.log(token)
 
         response.status(200).json({
-            user,
-            token
+            user
         })
     }
 }
