@@ -10,11 +10,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 app.use(routes);
 
+app.get("/", (req,res) => {
+    res.json("Hello world")
+}); 
+
 const PORT = 3001;
-
-
 
 app.use((err, req, res, next) => {
 
