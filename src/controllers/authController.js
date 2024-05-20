@@ -45,9 +45,6 @@ class AuthController {
 
         if (!passwordMatch) throw new AppError(401, "Email e /ou senhas incorretos.");
 
-        const token = tokenGenerator(user.id);
-        console.log(token)
-
         response.status(200).json({
             user
         })
