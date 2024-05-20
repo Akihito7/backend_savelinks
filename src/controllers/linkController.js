@@ -1,14 +1,22 @@
 const knex = require("../database/knex");
+const AppError = require("../utils/appError");
 
 class LinkController {
     async getManyLink(request, response) {
-
         const user_id = request.user.id;
-
         const links = await knex("links").where({ user_id });
-
         response.status(200).json(links)
     };
+
+    async getUniqueLink(request, response) {
+        const id = request.params.idLink;
+        const user_id = request.user.id;
+
+        const link = await knex("links").where({ user_id, id }).first();
+
+
+        response.status(200).json(link)
+    }
 
     async addLink(request, response) {
         const {
@@ -30,7 +38,7 @@ class LinkController {
     };
 
     async updateLink(request, response) {
-        
+
         const id = request.params.idLink;
 
         const {
@@ -46,9 +54,9 @@ class LinkController {
             link: link || linkSelected.link,
             description: description || linkSelected.description
         };
-        
+
         await knex("links").update(updateLink).where({ id });
-        
+
         response.status(200).json()
     }
 
@@ -57,10 +65,10 @@ class LinkController {
         const id = request.params.idLink;
 
         const user_id = request.user.id;
-        
-        const linkDeleted = await knex("links").del().where({id, user_id});
-        
-        if(!linkDeleted) return response.status(404).json({ message: "Nenhuma coluna foi excluída. Id do link ou Id do user não encontrado ou não correspondente" });
+
+        const linkDeleted = await knex("links").del().where({ id, user_id });
+
+        if (!linkDeleted) throw new AppError(404, "Nenhuma coluna foi excluida.");
 
         response.status(200).json();
     }

@@ -6,6 +6,7 @@ const routes = Router();
 
 routes.use(ensureAuthentication)
 routes.get("/", linkController.getManyLink);
+routes.get("/:idLink", linkController.getUniqueLink);
 routes.post("/", linkController.addLink);
 routes.put("/:idLink", linkController.updateLink);
 routes.delete("/:idLink", linkController.deleteLink);

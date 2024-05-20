@@ -2,6 +2,8 @@ const knex = require("../database/knex");
 const { hash, compare } = require("bcrypt");
 
 const tokenGenerator = require("../providers/tokenGenerator");
+const AppError = require("../utils/appError");
+
 
 class AuthController {
 
@@ -15,9 +17,7 @@ class AuthController {
 
         const emailExists = await knex("users").where({ email }).first();
 
-        if (emailExists) return response.status(409).json({
-            message: "Email já em uso."
-        });
+        if (emailExists) throw new AppError(409, "Email já em uso");
 
         password = await hash(password, 8);
 
@@ -38,15 +38,11 @@ class AuthController {
 
         const user = await knex("users").where({ email }).first();
 
-        if (!user) return response.status(400).json({
-            message: "Email e /ou senha incorretos."
-        });
+        if (!user) throw new AppError(401, "Email e /ou senhas incorretos.")
 
         const passwordMatch = await compare(password, user.password);
 
-        if (!passwordMatch) return response.status(400).json({
-            message: "Email e /ou senhas incorretos."
-        });
+        if (!passwordMatch) throw new AppError(401, "Email e /ou senhas incorretos.");
 
         const token = tokenGenerator(user.id);
 
